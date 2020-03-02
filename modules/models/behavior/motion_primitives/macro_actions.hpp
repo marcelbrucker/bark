@@ -20,21 +20,22 @@ class BehaviorMPMacroActions : public BehaviorMotionPrimitives {
                          const commons::ParamsPtr& params)
       : BehaviorMotionPrimitives(dynamic_model, params) {}
 
-  virtual ~BehaviorMPMacroActions() {}
+  ~BehaviorMPMacroActions() override {}
 
-  virtual Trajectory Plan(float delta_time,
-                          const ObservedWorld& observed_world);
+  Trajectory Plan(float delta_time,
+                  const ObservedWorld& observed_world) override;
 
-  virtual MotionIdx GetNumMotionPrimitives(
-      const ObservedWorldPtr& observed_world) const {
-    // MotionIdx count = 0;
-    // for (auto const& p : motion_primitives_) {
-    //   if (p->IsPreConditionSatisfied(observed_world)) {
-    //     count++;
-    //   }
-    // }
-    // TODO: this should be a vector!!
-    return motion_primitives_.size();
+  std::vector<MotionIdx> GetValidMotionPrimitives(
+      const ObservedWorldPtr& observed_world) const override {
+    MotionIdx count = 0;
+    std::vector<MotionIdx> valid_mp;
+    for (auto const& p : motion_primitives_) {
+      if (p->IsPreConditionSatisfied(observed_world)) {
+        valid_mp.emplace_back(count);
+      }
+      count++;
+    }
+    return valid_mp;
   }
 
   MotionIdx AddMotionPrimitive(const primitives::PrimitivePtr& primitive);
@@ -47,7 +48,11 @@ class BehaviorMPMacroActions : public BehaviorMotionPrimitives {
 
 inline std::shared_ptr<BehaviorModel> BehaviorMPMacroActions::Clone() const {
   std::shared_ptr<BehaviorMPMacroActions> model_ptr =
-      std::make_shared<BehaviorMPMacroActions>(*this);
+      std::make_shared<BehaviorMPMacroActions>(dynamic_model_, this->GetParams());
+
+  for(const auto& mp : motion_primitives_) {
+    model_ptr->AddMotionPrimitive(mp->ClonePrimitive());
+  }
   return model_ptr;
 }
 

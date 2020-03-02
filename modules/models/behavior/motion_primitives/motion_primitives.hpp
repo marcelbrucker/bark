@@ -37,7 +37,7 @@ class BehaviorMotionPrimitives : public BehaviorModel {
   virtual ~BehaviorMotionPrimitives() {}
 
   typedef unsigned int MotionIdx;
-  virtual MotionIdx GetNumMotionPrimitives(const ObservedWorldPtr& observed_world) const = 0;
+  virtual std::vector<MotionIdx> GetValidMotionPrimitives(const ObservedWorldPtr& observed_world) const = 0;
   //virtual Input GetAction() const = 0;
   void ActionToBehavior(const MotionIdx& motion_idx) {
     active_motion_ = motion_idx;

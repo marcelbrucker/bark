@@ -9,6 +9,8 @@
 
 #include "modules/models/behavior/motion_primitives/motion_primitives.hpp"
 
+#include <numeric>
+
 namespace modules {
 namespace models {
 namespace behavior {
@@ -19,12 +21,14 @@ class BehaviorMPContinuousActions : public BehaviorMotionPrimitives {
                              const commons::ParamsPtr& params)
       : BehaviorMotionPrimitives(dynamic_model, params), motion_primitives_() {}
 
-  virtual ~BehaviorMPContinuousActions() {}
+  ~BehaviorMPContinuousActions() override {}
 
-  virtual Trajectory Plan(float delta_time, const ObservedWorld& observed_world);
+  Trajectory Plan(float delta_time, const ObservedWorld& observed_world) override;
 
-  virtual MotionIdx GetNumMotionPrimitives(const ObservedWorldPtr& observed_world) const {
-    return motion_primitives_.size();
+  std::vector<MotionIdx> GetValidMotionPrimitives(const ObservedWorldPtr& observed_world) const override {
+    std::vector<MotionIdx> valid_mp(motion_primitives_.size());
+    std::iota(valid_mp.begin(), valid_mp.end(), 0);
+    return valid_mp;
   }
   virtual Input GetAction() const { return motion_primitives_[active_motion_]; }
   MotionIdx AddMotionPrimitive(const Input& dynamic_input);
