@@ -48,11 +48,7 @@ class BehaviorMPMacroActions : public BehaviorMotionPrimitives {
 
 inline std::shared_ptr<BehaviorModel> BehaviorMPMacroActions::Clone() const {
   std::shared_ptr<BehaviorMPMacroActions> model_ptr =
-      std::make_shared<BehaviorMPMacroActions>(dynamic_model_, this->GetParams());
-
-  for(const auto& mp : motion_primitives_) {
-    model_ptr->AddMotionPrimitive(mp->ClonePrimitive());
-  }
+      std::make_shared<BehaviorMPMacroActions>(*this);
   return model_ptr;
 }
 
