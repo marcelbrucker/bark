@@ -12,6 +12,7 @@
 #include "gtest/gtest.h"
 
 #include "modules/commons/params/setter_params.hpp"
+#include "modules/commons/params/default_params.hpp"
 
 
 // TODO(fortiss): fill our this test
@@ -54,6 +55,16 @@ TEST(setter_params, param_tests) {
   EXPECT_EQ(child_params3->GetReal("Test3::2","", 1.0f), 123123.23783f);
   auto child_params4 = child_params3->AddChild("Test3");
   EXPECT_EQ(child_params4->GetReal("2","", 1.0f), 123123.23783f);
+
+}
+
+TEST(default_params, param_tests) {
+  std::cout << "Start test\n";
+
+   //modules::commons::DefaultParams params();
+   auto params_ptr = std::make_shared<modules::commons::DefaultParams>();
+
+   const auto child = params_ptr->AddChild("Child");
 
 }
 
