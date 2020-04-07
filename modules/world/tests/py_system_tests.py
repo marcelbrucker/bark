@@ -23,7 +23,7 @@ from bark.world.opendrive import OpenDriveMap, XodrRoad, PlanView, \
 from modules.runtime.viewer.video_renderer import VideoRenderer
 from bark.models.behavior import * 
 import os
-
+import pickle
 
 class PythonDistanceBehavior(BehaviorModel):
   """Python behavior model to give an example of observed world interfaces
@@ -99,7 +99,6 @@ class PythonDistanceBehavior(BehaviorModel):
 class SystemTests(unittest.TestCase):
     """ This shall serve as a full system test, importing world, agent, and behavior models
     """
-    #@unittest.skip
     def test_uct_single_agent(self):
         try:
             from bark.models.behavior import BehaviorUCTSingleAgentMacroActions
@@ -179,6 +178,10 @@ class SystemTests(unittest.TestCase):
 
         video_renderer.export_video(filename="./test_video_intermediate", remove_image_dir=True)
 
+    @unittest.skip
+    def test_python_behavior_model_pickle(self):
+        params = ParameterServer()
+        pickle.dumps(PythonDistanceBehavior(params))
 
     def test_python_behavior_model(self):
         # World Definition
