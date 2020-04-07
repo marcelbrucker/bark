@@ -92,11 +92,11 @@ class LaneCorridorConfig:
     centerline = lane_corr.center_line
     if self._current_s == None:
       self._current_s = min_s
+    self._current_s += self.ds()
     xy_point =  GetPointAtS(centerline, self._current_s)
     angle = GetTangentAngleAtS(centerline, self._current_s)
     if self._current_s > max_s:
       return None
-    self._current_s += self.ds()
     return (xy_point.x(), xy_point.y(), angle)
 
   def velocity(self, min_vel=10., max_vel=15.):
