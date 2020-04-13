@@ -21,7 +21,7 @@ We recommend using Ubuntu.
 ## Setup on MacOS
 1. Install pyenv: `brew install pyenv`.
 2. Install a newer version of tcl-tk: `brew upgrade tcl-tk`.
-3. Run `pyenv install python3.7-dev`.
+3. Run `pyenv install 3.7-dev`.
 4. Set this as your global Python version: `pyenv global 3.7-dev`.
 5. Also add this Python version to your `~/.zshrc` by adding `eval "$(pyenv init -)"`.
 6. Install an older version of the virtualenv package by running: `pip install virtualenv==16.7.8`
